@@ -5,6 +5,22 @@
 >
   <span class="visually-hidden">Loading...</span>
 </div>
+<div class="mb-3">
+  <label for="filterText" class="form-label"> Search for products</label>
+  <input
+    type="text"
+    [(ngModel)]="filterText"
+    class="form-control"
+    id="filterText"
+    placeholder="enter search phrase"
+  />
+  <!--component'teki filer text alanına bağlamak için ngmodel kullanıyoruz  -->
+</div>
+
+<div *ngIf="filterText.length > 2" class="alert alert-success">
+  {{ filterText }} you've searched
+</div>
+
 <table *ngIf="dataLoaded != false" class="table">
   <thead>
     <tr>
@@ -12,14 +28,16 @@
       <th>Product name</th>
       <th>Category</th>
       <th>Price</th>
-      <th>Stock quantity</th>
+      <th>Price With Vat</th>
+      <th>Stock Quantity</th>
     </tr>
   </thead>
   <tr *ngFor="let product of products">
     <td>{{ product.productId }}</td>
-    <td>{{ product.productName }}</td>
+    <td>{{ product.productName | uppercase }}</td>
     <td>{{ product.categoryId }}</td>
-    <td>{{ product.unitPrice }}</td>
+    <td>{{ product.unitPrice | currency }}</td>
+    <td>{{ product.unitPrice | vatAdded : 18 | currency }}</td>
     <td>{{ product.unitsInStock }}</td>
   </tr>
 </table>
